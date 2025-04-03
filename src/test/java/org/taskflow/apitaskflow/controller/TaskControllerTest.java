@@ -26,6 +26,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class TaskControllerTest {
 	
+	@Test
+	void testUpdateTask() throws Exception {
+		Task task = new Task();
+		task.setId(1L);
+		task.setTitle("Updated Task");
+		task.setDescription("Updated Description");
+		task.setStatus(TaskStatus.IN_PROGRESS);
+		task.setDeadline(LocalDateTime.now().plusDays(2));
+		
+		when(taskService.updateTask(task)).thenReturn(task);
+		
+		mockMvc.perform(
+						post("/api/tasks")
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(objectMapper.writeValueAsString(task))
+				)
+				.andExpect(status().isOk());
+	}
+	
 	@Autowired
 	private MockMvc mockMvc;
 	
