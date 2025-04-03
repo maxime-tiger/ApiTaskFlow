@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.taskflow.apitaskflow.model.JwtResponse;
 import org.taskflow.apitaskflow.model.LoginRequest;
 import org.taskflow.apitaskflow.model.RegistrationRequest;
-import org.taskflow.apitaskflow.security.JwtUtil;
 import org.taskflow.apitaskflow.model.User;
+import org.taskflow.apitaskflow.security.JwtUtil;
 import org.taskflow.apitaskflow.service.UserService;
 
 @RestController
