@@ -18,13 +18,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TaskController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class TaskControllerTest {
+	
+	@Test
+	void testDeleteTask_success() throws Exception {
+		mockMvc.perform(
+				delete("/api/tasks/1")
+						.contentType(MediaType.APPLICATION_JSON)
+		).andExpect(status().isNoContent());
+	}
 	
 	@Test
 	void testUpdateTask() throws Exception {
@@ -38,7 +48,7 @@ class TaskControllerTest {
 		when(taskService.updateTask(task)).thenReturn(task);
 		
 		mockMvc.perform(
-						post("/api/tasks")
+						put("/api/tasks")
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(task))
 				)
