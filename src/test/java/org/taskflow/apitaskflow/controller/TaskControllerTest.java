@@ -15,6 +15,7 @@ import org.taskflow.apitaskflow.security.JwtUtil;
 import org.taskflow.apitaskflow.service.TaskService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -70,6 +71,29 @@ class TaskControllerTest {
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(task))
 				)
+				.andExpect(status().isOk());
+	}
+	
+	@Test
+	void testGetTasksByProjectId() throws Exception {
+		List<Task> tasks = List.of(
+				new Task(1L, "Task 1", "Description 1", TaskStatus.IN_PROGRESS, LocalDateTime.now().plusDays(1)),
+				new Task(2L, "Task 2", "Description 2", TaskStatus.DONE, LocalDateTime.now().plusDays(2))
+		);
+		
+		when(taskService.getTasksByProjectId(100L)).thenReturn(tasks);
+		
+		mockMvc.perform(get("/api/tasks/project/100")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+	
+	@Test
+	void testGetTasksByProjectId_emptyResponse() throws Exception {
+		when(taskService.getTasksByProjectId(200L)).thenReturn(List.of());
+		
+		mockMvc.perform(get("/api/tasks/project/200")
+						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 }

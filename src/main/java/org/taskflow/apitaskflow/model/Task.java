@@ -39,4 +39,7 @@ public class Task {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_id")
 	private Project project;
+	
+	public Task(long l, String s, String s1, TaskStatus taskStatus, LocalDateTime localDateTime) {
+	}
 }
