@@ -28,6 +28,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class TaskControllerTest {
 	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private TaskService taskService;
+	
+	@MockBean
+	private JwtUtil jwtUtil;
+	
+	@MockBean
+	private CustomUserDetailsService customUserDetailsService;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
+	
 	@Test
 	void testDeleteTask_success() throws Exception {
 		mockMvc.perform(
@@ -54,21 +69,6 @@ class TaskControllerTest {
 				)
 				.andExpect(status().isOk());
 	}
-	
-	@Autowired
-	private MockMvc mockMvc;
-	
-	@MockBean
-	private TaskService taskService;
-	
-	@MockBean
-	private JwtUtil jwtUtil;
-	
-	@MockBean
-	private CustomUserDetailsService customUserDetailsService;
-	
-	@Autowired
-	private ObjectMapper objectMapper;
 	
 	@Test
 	void testGetTaskById() throws Exception {
